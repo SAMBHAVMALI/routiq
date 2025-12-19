@@ -77,7 +77,8 @@ ul {
 .habit-right {
   display: flex;
   align-items: center;
-  gap: 4px; /* 👈 CLOSE TO EACH OTHER */
+  gap: 4px;
+  position: relative; /* 🔥 THIS IS THE KEY */
 }
 
 /* ===== FLIP BUTTON ===== */
@@ -138,14 +139,15 @@ ul {
 /* Dropdown */
 .menu {
   position: absolute;
-  right: 16px;
-  top: 60px;
+  top: 100%;
+  right: 0;
+  margin-top: 6px;
   background: white;
   border-radius: 10px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   display: none;
   overflow: hidden;
-  z-index: 20;
+  z-index: 50;
 }
 
 .menu button {
@@ -161,3 +163,19 @@ ul {
 .menu button:hover {
   background: #f0f0f0;
 }
+
+.menu {
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
