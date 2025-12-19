@@ -40,5 +40,6 @@ render();
 
 /* REGISTER SERVICE WORKER */
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/routiq-app/service-worker.js");
+  navigator.serviceWorker.register("/Routiq/service-worker.js");
+
 }
