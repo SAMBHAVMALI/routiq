@@ -4,17 +4,15 @@ const list = document.getElementById("habitList");
 
 let habits = JSON.parse(localStorage.getItem("habits")) || [];
 
-/*
-Habit structure:
-{
-  name: string,
-  done: boolean
-}
-*/
-
 function save() {
   localStorage.setItem("habits", JSON.stringify(habits));
 }
+
+function closeAllMenus() {
+  document.querySelectorAll(".menu").forEach(m => m.style.display = "none");
+}
+
+document.addEventListener("click", closeAllMenus);
 
 function render() {
   list.innerHTML = "";
@@ -28,7 +26,6 @@ function render() {
 
     const flip = document.createElement("div");
     flip.className = "flip" + (habit.done ? " done" : "");
-
     flip.innerHTML = `
       <div class="flip-inner">
         <div class="flip-face flip-front">✖</div>
@@ -36,15 +33,51 @@ function render() {
       </div>
     `;
 
-    // 🔥 KEY: NO RE-RENDER ON CLICK
-    flip.addEventListener("click", () => {
-      flip.classList.toggle("done");       // animate
+    flip.addEventListener("click", (e) => {
+      e.stopPropagation();
+      flip.classList.toggle("done");
       habits[index].done = !habits[index].done;
-      save();                              // persist
+      save();
+    });
+
+    const menuBtn = document.createElement("button");
+    menuBtn.className = "menu-btn";
+    menuBtn.textContent = "⋮";
+
+    const menu = document.createElement("div");
+    menu.className = "menu";
+    menu.innerHTML = `
+      <button>Edit</button>
+      <button>Delete</button>
+    `;
+
+    menuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeAllMenus();
+      menu.style.display = "block";
+    });
+
+    menu.children[0].addEventListener("click", () => {
+      const newName = prompt("Edit habit:", habit.name);
+      if (newName) {
+        habits[index].name = newName.trim();
+        save();
+        render();
+      }
+    });
+
+    menu.children[1].addEventListener("click", () => {
+      if (confirm("Delete this habit?")) {
+        habits.splice(index, 1);
+        save();
+        render();
+      }
     });
 
     li.appendChild(text);
     li.appendChild(flip);
+    li.appendChild(menuBtn);
+    li.appendChild(menu);
     list.appendChild(li);
   });
 }
@@ -52,7 +85,6 @@ function render() {
 addBtn.addEventListener("click", () => {
   const value = input.value.trim();
   if (!value) return;
-
   habits.push({ name: value, done: false });
   input.value = "";
   save();
@@ -61,7 +93,7 @@ addBtn.addEventListener("click", () => {
 
 render();
 
-/* Service worker (unchanged) */
+/* Service Worker */
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./service-worker.js");
 }
