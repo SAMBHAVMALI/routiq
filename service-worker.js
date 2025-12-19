@@ -1,25 +1,28 @@
-const CACHE_NAME = "Routiq-v1";
+const CACHE_NAME = "routiq-v-final";
 
-self.addEventListener("install", (event) => {
+self.addEventListener("install", event => {
+  self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) =>
+    caches.open(CACHE_NAME).then(cache =>
       cache.addAll([
-        "/Routiq/",
-        "/Routiq/index.html",
-        "/Routiq/style.css",
-        "/Routiq/app.js",
-        "/Routiq/manifest.json",
-        "/Routiq/icon-192.png",
-        "/Routiq/icon-512.png"
+        "./",
+        "./index.html",
+        "./style.css",
+        "./app.js",
+        "./manifest.json",
+        "./icon-192.png",
+        "./icon-512.png"
       ])
     )
   );
 });
 
-self.addEventListener("fetch", (event) => {
+self.addEventListener("activate", event => {
+  event.waitUntil(self.clients.claim());
+});
+
+self.addEventListener("fetch", event => {
   event.respondWith(
-    caches.match(event.request).then(
-      (response) => response || fetch(event.request)
-    )
+    caches.match(event.request).then(res => res || fetch(event.request))
   );
 });
