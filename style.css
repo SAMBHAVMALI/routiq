@@ -77,7 +77,7 @@ ul {
 .habit-right {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   position: relative; /* 🔥 THIS IS THE KEY */
 }
 
