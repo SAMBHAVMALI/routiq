@@ -4,6 +4,14 @@ const list = document.getElementById("habitList");
 
 let habits = JSON.parse(localStorage.getItem("habits")) || [];
 
+// 🔧 migrate old data if needed
+habits = habits.map(h =>
+  typeof h === "string"
+    ? { name: h, done: false }
+    : h
+);
+
+
 function save() {
   localStorage.setItem("habits", JSON.stringify(habits));
 }
