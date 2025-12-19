@@ -4,11 +4,6 @@ const list = document.getElementById("habitList");
 
 let habits = JSON.parse(localStorage.getItem("habits")) || [];
 
-/*
-Each habit:
-{ name: string, done: boolean }
-*/
-
 function save() {
   localStorage.setItem("habits", JSON.stringify(habits));
 }
@@ -20,23 +15,30 @@ function render() {
     const li = document.createElement("li");
     li.className = "habit";
 
-    li.innerHTML = `
-      <span>${habit.name}</span>
+    const flip = document.createElement("div");
+    flip.className = "flip" + (habit.done ? " done" : "");
 
-      <div class="flip ${habit.done ? "done" : ""}" data-index="${index}">
-        <div class="flip-inner">
-          <div class="flip-face flip-front">✖</div>
-          <div class="flip-face flip-back">✔</div>
-        </div>
+    flip.innerHTML = `
+      <div class="flip-inner">
+        <div class="flip-face flip-front">✖</div>
+        <div class="flip-face flip-back">✔</div>
       </div>
     `;
 
-    li.querySelector(".flip").addEventListener("click", () => {
+    flip.addEventListener("click", () => {
+      // 🔥 THIS IS THE KEY
+      flip.classList.toggle("done");
+
+      // Save state AFTER animation starts
       habits[index].done = !habits[index].done;
       save();
-      render();
     });
 
+    const text = document.createElement("span");
+    text.textContent = habit.name;
+
+    li.appendChild(text);
+    li.appendChild(flip);
     list.appendChild(li);
   });
 }
