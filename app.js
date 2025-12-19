@@ -1,3 +1,4 @@
+alert("app.js loaded");
 const input = document.getElementById("habitInput");
 const addBtn = document.getElementById("addHabitBtn");
 const list = document.getElementById("habitList");
