@@ -1,16 +1,16 @@
-const CACHE_NAME = "routiq-app-v1";
+const CACHE_NAME = "Routiq-v1";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) =>
       cache.addAll([
-        "/routiq-app/",
-        "/routiq-app/index.html",
-        "/routiq-app/style.css",
-        "/routiq-app/app.js",
-        "/routiq-app/manifest.json",
-        "/routiq-app/icon-192.png",
-        "/routiq-app/icon-512.png"
+        "/Routiq/",
+        "/Routiq/index.html",
+        "/Routiq/style.css",
+        "/Routiq/app.js",
+        "/Routiq/manifest.json",
+        "/Routiq/icon-192.png",
+        "/Routiq/icon-512.png"
       ])
     )
   );
